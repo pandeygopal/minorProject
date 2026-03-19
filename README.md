@@ -31,7 +31,7 @@ To get a local copy up and running follow these simple steps.
 
 1. Clone the repo:
    ```sh
-   git clone https://github.com/anshdeep0504/JOB-PORTAL-MERN.git
+   git clone 
    ```
 2. Install NPM packages:
    ```sh
@@ -77,7 +77,3 @@ Contributions are what make the open-source community such an amazing place to l
 ## Please give a star to the repository if you like it.
 
 ## Contact
-
-Anshdeep Singh - [GitHub](https://github.com/anshdeep0504)
-
-Project Link: (https://github.com/anshdeep0504/JOB-PORTAL-MERN)
