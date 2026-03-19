@@ -18,6 +18,8 @@ import app from "./app.js";
 import cloudinary from "cloudinary";
 import dotenv from "dotenv";
 import dbConnection from "./database/dbConnection.js";
+import http from "http";
+import { Server } from "socket.io";
 
 // load environment variables
 dotenv.config({ path: "./config/config.env" });
@@ -32,7 +34,28 @@ cloudinary.v2.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+const server = http.createServer(app);
+
+export const io = new Server(server, {
+  cors: {
+    origin: [process.env.FRONTEND_URL],
+    credentials: true,
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log(`User connected to sockets: ${socket.id}`);
+
+  socket.on("join", (userId) => {
+    socket.join(userId);
+  });
+
+  socket.on("disconnect", () => {
+    console.log(`User disconnected: ${socket.id}`);
+  });
+});
+
 // start server
-app.listen(process.env.PORT, () => {
+server.listen(process.env.PORT, () => {
   console.log(`Server running at port ${process.env.PORT}`);
 });

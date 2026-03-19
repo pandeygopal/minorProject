@@ -20,15 +20,35 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: [true, "Please provide a Password!"],
     minLength: [8, "Password must contain at least 8 characters!"],
     maxLength: [32, "Password cannot exceed 32 characters!"],
+    select: false,
+    required: false,
+  },
+  phoneVerified: {
+    type: Boolean,
+    default: false,
+  },
+  aadhaarId: {
+    type: String,
+    select: false,
+  },
+  aadhaarVerified: {
+    type: Boolean,
+    default: false,
+  },
+  otpHash: {
+    type: String,
+    select: false,
+  },
+  otpExpiry: {
+    type: Date,
     select: false,
   },
   role: {
     type: String,
     required: [true, "Please select a role"],
-    enum: ["Job Seeker", "Employer"],
+    enum: ["Job Seeker", "Employer", "Admin"],
   },
   createdAt: {
     type: Date,

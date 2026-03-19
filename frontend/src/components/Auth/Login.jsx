@@ -1,7 +1,4 @@
 import React, { useContext, useState } from "react";
-import { MdOutlineMailOutline } from "react-icons/md";
-import { RiLock2Fill } from "react-icons/ri";
-import { FaRegUser } from "react-icons/fa";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Context } from "../../main";
@@ -10,13 +7,21 @@ import { Link, Navigate } from "react-router-dom";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState("Job Seeker");
+
+  // OTP states
+  const [loginMode, setLoginMode] = useState("password");
+  const [phone, setPhone] = useState("");
+  const [otp, setOtp] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { isAuthorized, setIsAuthorized } = useContext(Context);
 
-  const handleLogin = async (e) => {
+  const handlePasswordLogin = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const { data } = await axios.post(
         "http://localhost:4000/api/v1/user/login",
         { email, password, role },
@@ -33,7 +38,50 @@ const Login = () => {
       setRole("");
       setIsAuthorized(true);
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || "Login failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSendOtp = async (e) => {
+    e.preventDefault();
+    if (!phone) return toast.error("Please enter a phone number");
+    try {
+      setLoading(true);
+      const { data } = await axios.post(
+        "http://localhost:4000/api/v1/user/send-otp",
+        { phone, role },
+        { withCredentials: true }
+      );
+      toast.success(data.message);
+      setOtpSent(true);
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to send OTP");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleVerifyOtp = async (e) => {
+    e.preventDefault();
+    if (!otp) return toast.error("Please enter the OTP");
+    try {
+      setLoading(true);
+      const { data } = await axios.post(
+        "http://localhost:4000/api/v1/user/verify-otp",
+        { phone, role, otp },
+        { withCredentials: true }
+      );
+      toast.success(data.message);
+      setPhone("");
+      setOtp("");
+      setRole("");
+      setIsAuthorized(true);
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Invalid OTP");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -42,207 +90,127 @@ const Login = () => {
   }
 
   return (
-    <section className="authPage">
-      <div className="form-container">
-        <div className="header">
-          <h3>Login to your account</h3>
-          <p className="subheading">Please login with your credentials</p>
+    <div className="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-[calc(100vh-64px)] flex items-center justify-center p-6">
+      <div className="w-full max-w-md bg-white dark:bg-slate-900/50 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-primary/5">
+        <div className="text-center mb-8">
+          <div className="bg-primary/10 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-primary/20">
+            <span className="material-symbols-outlined text-3xl text-primary block">
+              {loginMode === "otp" ? "pin_invoke" : "login"}
+            </span>
+          </div>
+          <h2 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Welcome Back</h2>
+          <p className="text-slate-500 font-medium mt-1">Login to access your dashboard</p>
         </div>
-        <form onSubmit={handleLogin} className="login-form">
-          <div className="input-group">
-            <label>Login As</label>
-            <select
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              required
-            >
-              <option value="">Select Role</option>
-              <option value="Job Seeker">Job Seeker</option>
-              <option value="Employer">Employer</option>
-            </select>
-            <FaRegUser />
-          </div>
-          <div className="input-group">
-            <label>Email Address</label>
-            <div className="input-wrapper">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-              <MdOutlineMailOutline />
+
+        <div className="flex bg-slate-100 dark:bg-slate-800/50 p-1 rounded-xl mb-6">
+          <button type="button" onClick={() => { setLoginMode("password"); setOtpSent(false); }} className={`flex-1 py-2 text-sm font-bold rounded-lg transition-all ${loginMode === "password" ? "bg-white dark:bg-slate-700 shadow text-primary" : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"}`}>Password</button>
+          <button type="button" onClick={() => setLoginMode("otp")} className={`flex-1 py-2 text-sm font-bold rounded-lg transition-all ${loginMode === "otp" ? "bg-white dark:bg-slate-700 shadow text-primary" : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"}`}>OTP Login</button>
+        </div>
+
+        <form onSubmit={loginMode === "password" ? handlePasswordLogin : (otpSent ? handleVerifyOtp : handleSendOtp)} className="space-y-6">
+          <div className="space-y-2">
+            <label className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider block">Login As</label>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={() => setRole("Job Seeker")}
+                className={`flex items-center justify-center gap-2 py-3 rounded-xl border-2 font-bold transition-all ${role === "Job Seeker" ? 'border-primary bg-primary/10 text-primary' : 'border-slate-100 dark:border-slate-800 text-slate-500 hover:border-primary/50'}`}
+              >
+                <span className="material-symbols-outlined text-xl">engineering</span>
+                Job Seeker
+              </button>
+              <button
+                type="button"
+                onClick={() => setRole("Employer")}
+                className={`flex items-center justify-center gap-2 py-3 rounded-xl border-2 font-bold transition-all ${role === "Employer" ? 'border-primary bg-primary/10 text-primary' : 'border-slate-100 dark:border-slate-800 text-slate-500 hover:border-primary/50'}`}
+              >
+                <span className="material-symbols-outlined text-xl">storefront</span>
+                Employer
+              </button>
             </div>
           </div>
-          <div className="input-group">
-            <label>Password</label>
-            <div className="input-wrapper">
-              <input
-                type="password"
-                placeholder="Enter your Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-              <RiLock2Fill />
+
+          {loginMode === "password" ? (
+            <div className="space-y-4 animate-in fade-in duration-300">
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider block">Email Address</label>
+                <div className="relative">
+                  <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">mail</span>
+                  <input
+                    type="email"
+                    className="w-full pl-12 pr-4 py-4 rounded-xl border-2 border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 font-medium focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all"
+                    placeholder="name@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider block">Password</label>
+                <div className="relative">
+                  <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">lock</span>
+                  <input
+                    type="password"
+                    className="w-full pl-12 pr-4 py-4 rounded-xl border-2 border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 font-medium focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all"
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-          <button type="submit" className="btn login-btn">
-            Login
+          ) : (
+            <div className="space-y-4 animate-in fade-in duration-300">
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider block">Phone Number</label>
+                <div className="relative">
+                  <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">phone</span>
+                  <input
+                    type="text"
+                    className="w-full pl-12 pr-4 py-4 rounded-xl border-2 border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 font-medium focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all disabled:opacity-50"
+                    placeholder="Enter phone number"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    disabled={otpSent}
+                    required
+                  />
+                </div>
+              </div>
+
+              {otpSent && (
+                <div className="space-y-2 animate-in fade-in slide-in-from-top-2 duration-300">
+                  <label className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider block">Enter OTP</label>
+                  <div className="relative">
+                    <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">pin</span>
+                    <input
+                      type="text"
+                      className="w-full pl-12 pr-4 py-4 rounded-xl border-2 border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 font-medium tracking-widest text-center focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all text-xl"
+                      placeholder="••••••"
+                      maxLength="6"
+                      value={otp}
+                      onChange={(e) => setOtp(e.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          <button type="submit" disabled={loading} className="w-full bg-primary text-white py-4 rounded-xl font-black text-lg shadow-lg shadow-primary/25 hover:brightness-110 active:scale-[0.98] transition-all disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center gap-2">
+            {loading && <span className="material-symbols-outlined animate-spin">refresh</span>}
+            {loginMode === "password" ? "LOGIN" : (otpSent ? "VERIFY OTP" : "SEND OTP")}
           </button>
-          <Link to="/register" className="register-link">
-            Don’t have an account? Register Now
-          </Link>
         </form>
+
+        <div className="mt-8 text-center text-sm font-medium text-slate-600 dark:text-slate-400">
+          Don't have an account? <Link to="/register" className="text-primary hover:underline font-bold ml-1">Sign Up</Link>
+        </div>
       </div>
-
-      <style jsx>{`
-        .authPage {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 100vh;
-          background-color: #fff;
-          font-family: "Arial", sans-serif;
-        }
-
-        .form-container {
-          width: 100%;
-          max-width: 420px;
-          padding: 30px;
-          background: #ffffff;
-          border-radius: 12px;
-          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
-          text-align: center;
-          animation: fadeIn 1s ease-out;
-        }
-
-        .header {
-          margin-bottom: 20px;
-        }
-
-        .header h3 {
-          font-size: 28px;
-          font-weight: bold;
-          color: #333;
-          margin-bottom: 10px;
-        }
-
-        .subheading {
-          font-size: 16px;
-          color: #777;
-        }
-
-        .login-form {
-          display: flex;
-          flex-direction: column;
-          gap: 18px;
-        }
-
-        .input-group {
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-          text-align: left;
-        }
-
-        .input-group label {
-          font-size: 14px;
-          color: #555;
-        }
-
-        .input-wrapper {
-          display: flex;
-          align-items: center;
-          border: 1px solid #ddd;
-          border-radius: 8px;
-          padding: 10px;
-          background-color: #f9f9f9;
-          transition: all 0.3s ease;
-        }
-
-        .input-wrapper:hover {
-          border-color: #007bff;
-        }
-
-        .input-wrapper input {
-          border: none;
-          outline: none;
-          flex-grow: 1;
-          padding: 10px;
-          font-size: 16px;
-          background-color: transparent;
-          color: #333;
-        }
-
-        .input-wrapper svg {
-          color: #888;
-        }
-
-        .input-wrapper input:focus {
-          background-color: #fff;
-        }
-
-        .btn {
-          padding: 12px 20px;
-          font-size: 16px;
-          background-color: #007bff;
-          color: white;
-          border: none;
-          border-radius: 8px;
-          cursor: pointer;
-          transition: background-color 0.3s ease;
-          box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
-        }
-
-        .btn:hover {
-          background-color: #0056b3;
-          box-shadow: 0 4px 12px rgba(0, 123, 255, 0.5);
-        }
-
-        .register-link {
-          margin-top: 10px;
-          font-size: 14px;
-          color: #007bff;
-          text-decoration: none;
-        }
-
-        .register-link:hover {
-          text-decoration: underline;
-        }
-
-        @media (max-width: 768px) {
-          .form-container {
-            padding: 25px;
-          }
-
-          .header h3 {
-            font-size: 24px;
-          }
-
-          .input-wrapper input {
-            font-size: 14px;
-          }
-
-          .btn {
-            font-size: 14px;
-          }
-        }
-
-        /* Animation */
-        @keyframes fadeIn {
-          0% {
-            opacity: 0;
-            transform: translateY(50px);
-          }
-          100% {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
-    </section>
+    </div>
   );
 };
 

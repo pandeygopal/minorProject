@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        font-size: 18px; /* Increases all tailwind rem units by 12.5% */
+        @apply scroll-smooth;
+    }
+    body {
+        @apply font-display bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-200 antialiased;
+        @apply transition-colors duration-500; /* Smooth dark mode toggle */
+        @apply selection:bg-primary/20 selection:text-primary; /* Branded text selection */
+        line-height: 1.6;
+    }
+    
+    *:focus-visible {
+        @apply outline-none ring-2 ring-primary/50 ring-offset-2 ring-offset-background-light dark:ring-offset-background-dark transition-shadow;
+    }
+}
+
+.custom-slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    background: #e2e8f0;
+    border-radius: 5px;
+    outline: none;
+}
+
+.custom-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #ec5b13;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}

@@ -3,7 +3,7 @@ import { Job } from "../models/jobSchema.js";
 import ErrorHandler from "../middlewares/error.js";
 
 export const getAllJobs = catchAsyncErrors(async (req, res, next) => {
-  const jobs = await Job.find({ expired: false });
+  const jobs = await Job.find({ expired: false }).sort({ jobPostedOn: -1 });
   res.status(200).json({
     success: true,
     jobs,
@@ -137,4 +137,26 @@ export const getSingleJob = catchAsyncErrors(async (req, res, next) => {
   } catch (error) {
     return next(new ErrorHandler(`Invalid ID / CastError`, 404));
   }
+});
+
+export const getJobsWithinRadius = catchAsyncErrors(async (req, res, next) => {
+  const { radius, lat, lng } = req.params;
+
+  // Calculate radius using radians. Earth Radius = 6,378 km
+  const radiusInRadians = radius / 6378;
+
+  const jobs = await Job.find({
+    locationPoint: {
+      $geoWithin: {
+        $centerSphere: [[lng, lat], radiusInRadians]
+      }
+    },
+    expired: false
+  }).sort({ jobPostedOn: -1 });
+
+  res.status(200).json({
+    success: true,
+    count: jobs.length,
+    jobs,
+  });
 });

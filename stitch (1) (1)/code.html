@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Create Job Post - Hyperlocal Hiring Network</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ec5b13",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#221610",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Public Sans', sans-serif;
+        }
+        .custom-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 5px;
+            outline: none;
+        }
+        .custom-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #ec5b13;
+            cursor: pointer;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<header class="sticky top-0 z-50 w-full bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-16">
+<div class="flex items-center gap-3">
+<div class="bg-primary p-1.5 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-2xl">local_mall</span>
+</div>
+<h1 class="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white uppercase">
+                        Hyperlocal <span class="text-primary">Hiring</span>
+</h1>
+</div>
+<nav class="hidden md:flex items-center space-x-8">
+<a class="text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-sm font-semibold text-primary" href="#">Jobs</a>
+<a class="text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-primary transition-colors" href="#">Candidates</a>
+<a class="text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-primary transition-colors" href="#">Messages</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30 overflow-hidden">
+<img alt="Profile" class="w-full h-full object-cover" data-alt="User profile avatar placeholder" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpLruVQkG8iDrzUZ9zg4CxCoIczbnHWRUXMI8xEu35uiPZUHZxGtOB1mr_8v5H3uZetWTmaiATfbenIOjebDp8F6fwup-O-JXDzhZKRC3XcKbnLeGf-Y4JhkxgfTCDuzxRQJVqIzIPv6V1Wc4zJYeFaJgja-PU4zhGlloascXV9vykF1ufw0kK-m7Nq0gz84xJlkferq91_Is8D6A0qgKOlv5FKYp1BSw1fuX4ANsYeeqv_yWcsVDuw53cJ_iefmUsrrojewwhXw1U"/>
+</div>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+<div class="mb-8">
+<h2 class="text-3xl font-black text-slate-900 dark:text-white">Create Job Post</h2>
+<p class="text-slate-500 dark:text-slate-400 mt-1">Recruit the best talent in your neighborhood.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="lg:col-span-2">
+<div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+<div class="p-6 sm:p-8 space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Job Title</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">work</span>
+<input class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" placeholder="e.g. Senior Barista" type="text"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Category</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">category</span>
+<select class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none appearance-none transition-all">
+<option>Food &amp; Beverage</option>
+<option>Retail</option>
+<option>Logistics</option>
+<option>Healthcare</option>
+<option>Customer Service</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">expand_more</span>
+</div>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Working Hours</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">schedule</span>
+<input class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" placeholder="e.g. 9 AM - 5 PM, Mon-Fri" type="text"/>
+</div>
+</div>
+<div class="space-y-6 pt-4">
+<div class="flex justify-between items-center">
+<label class="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Salary Range (Monthly)</label>
+<span class="text-primary font-bold bg-primary/10 px-3 py-1 rounded-full text-sm">$3,500 - $5,200</span>
+</div>
+<div class="px-2">
+<input class="custom-slider" max="10000" min="1000" step="100" type="range"/>
+<div class="flex justify-between mt-2 text-xs text-slate-400 font-medium">
+<span>$1,000</span>
+<span>$10,000</span>
+</div>
+</div>
+</div>
+<div class="space-y-2 pt-2">
+<label class="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Job Description</label>
+<textarea class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all resize-none" placeholder="Describe the role and what you are looking for..." rows="4"></textarea>
+</div>
+</div>
+<div class="px-8 py-5 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-200 dark:border-slate-800 flex justify-end gap-4">
+<button class="px-6 py-2.5 rounded-xl text-sm font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                            Save as Draft
+                        </button>
+<button class="px-8 py-2.5 bg-primary text-white rounded-xl text-sm font-bold shadow-lg shadow-primary/25 hover:bg-primary/90 transition-all transform hover:-translate-y-0.5">
+                            Post Job
+                        </button>
+</div>
+</div>
+</div>
+<div class="space-y-6">
+<div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+<div class="p-6 border-b border-slate-200 dark:border-slate-800">
+<h3 class="font-bold text-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">location_on</span>
+                            Set Shop Location
+                        </h3>
+</div>
+<div class="p-6 space-y-4">
+<div class="relative w-full aspect-square rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-inner group">
+<div class="absolute inset-0 bg-slate-200 flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="Modern minimalist map of Brooklyn neighborhood" data-location="Brooklyn, New York" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmq65yBVP0NHCWOlJ_uVJMg6saKwsdCbLP0VlvHXJljgoLTPAzc1A_NX6ogQEfBgLQWWJE6JRuA4nM9cc_TJY-lvYGmTvgr8lXQUKI-yC0U3H4Tg42pe1-iK1RT6YpKdjliqkQH_AB8Lbq2msQWgN2F_H9Nd69Mj1CWnOauzlwBBBt10AziHJ-mtxMKjZq1cpoiHR45n9NWVqRsQc6llEy1Rii12DJMJmpjkcoq3po2X2D50U870z_4kN9oavLoAGYoaUhw4c5skOO"/>
+</div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-full flex flex-col items-center">
+<div class="bg-primary text-white p-2 rounded-full shadow-lg animate-bounce">
+<span class="material-symbols-outlined block">store</span>
+</div>
+<div class="bg-white dark:bg-slate-900 px-3 py-1 rounded-lg shadow-md text-xs font-bold border border-slate-200 mt-1 whitespace-nowrap">
+                                    Your Shop Location
+                                </div>
+</div>
+<button class="absolute bottom-4 right-4 bg-white dark:bg-slate-800 p-2 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 hover:text-primary">
+<span class="material-symbols-outlined">my_location</span>
+</button>
+</div>
+<div class="space-y-3">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
+<input class="w-full pl-9 pr-4 py-2.5 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:ring-1 focus:ring-primary focus:border-primary outline-none" placeholder="Search address..." type="text"/>
+</div>
+<div class="p-3 bg-primary/5 border border-primary/20 rounded-lg">
+<p class="text-xs font-bold text-primary uppercase tracking-wider mb-1">Current Address</p>
+<p class="text-sm text-slate-700 dark:text-slate-300 font-medium">123 Neighborhood Way, Brooklyn, NY 11201</p>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-primary/10 border border-primary/20 rounded-xl p-6 relative overflow-hidden">
+<div class="relative z-10">
+<h4 class="font-bold text-slate-900 dark:text-white mb-2">Hyperlocal Boost</h4>
+<p class="text-sm text-slate-600 dark:text-slate-400 mb-4">Target workers within a 2-mile radius of your shop for better retention.</p>
+<button class="text-xs font-bold text-primary flex items-center gap-1 hover:underline">
+                            Learn more <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<span class="material-symbols-outlined absolute -right-4 -bottom-4 text-primary/10 text-8xl rotate-12 select-none">rocket_launch</span>
+</div>
+</div>
+</div>
+</main>
+<footer class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 border-t border-slate-200 dark:border-slate-800 mt-10">
+<div class="flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-2 opacity-50">
+<span class="material-symbols-outlined text-sm">local_mall</span>
+<span class="text-sm font-bold tracking-tight uppercase">Hyperlocal Hiring Network</span>
+</div>
+<div class="flex gap-8">
+<a class="text-xs font-medium text-slate-500 hover:text-primary" href="#">Terms of Service</a>
+<a class="text-xs font-medium text-slate-500 hover:text-primary" href="#">Privacy Policy</a>
+<a class="text-xs font-medium text-slate-500 hover:text-primary" href="#">Support</a>
+<a class="text-xs font-medium text-slate-500 hover:text-primary" href="#">Help Center</a>
+</div>
+<div class="text-xs text-slate-400 font-medium">
+                © 2024 Hyperlocal Hiring Network. All rights reserved.
+            </div>
+</div>
+</footer>
+</body></html>

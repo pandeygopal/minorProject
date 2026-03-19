@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import "./App.css";
+import "./i18n";
 import { Context } from "./main";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./components/Auth/Login";
@@ -16,6 +16,8 @@ import MyApplications from "./components/Application/MyApplications";
 import PostJob from "./components/Job/PostJob";
 import NotFound from "./components/NotFound/NotFound";
 import MyJobs from "./components/Job/MyJobs";
+import Notifications from "./components/Notifications";
+import Dashboard from "./components/Admin/Dashboard";
 
 const App = () => {
   const { isAuthorized, setIsAuthorized, setUser } = useContext(Context);
@@ -51,10 +53,12 @@ const App = () => {
           <Route path="/applications/me" element={<MyApplications />} />
           <Route path="/job/post" element={<PostJob />} />
           <Route path="/job/me" element={<MyJobs />} />
+          <Route path="/admin" element={<Dashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
         <Toaster />
+        <Notifications />
       </BrowserRouter>
     </>
   );
