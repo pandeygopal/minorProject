@@ -2,7 +2,6 @@ import { catchAsyncErrors } from "../middlewares/catchAsyncError.js";
 import ErrorHandler from "../middlewares/error.js";
 import { Application } from "../models/applicationSchema.js";
 import { Job } from "../models/jobSchema.js";
-import cloudinary from "cloudinary";
 import axios from "axios";
 import { io } from "../server.js";
 
@@ -13,28 +12,7 @@ export const postApplication = catchAsyncErrors(async (req, res, next) => {
       new ErrorHandler("Employer not allowed to access this resource.", 400)
     );
   }
-  if (!req.files || Object.keys(req.files).length === 0) {
-    return next(new ErrorHandler("Resume File Required!", 400));
-  }
 
-  const { resume } = req.files;
-  const allowedFormats = ["image/png", "image/jpeg", "image/webp"];
-  if (!allowedFormats.includes(resume.mimetype)) {
-    return next(
-      new ErrorHandler("Invalid file type. Please upload a PNG file.", 400)
-    );
-  }
-  const cloudinaryResponse = await cloudinary.uploader.upload(
-    resume.tempFilePath
-  );
-
-  if (!cloudinaryResponse || cloudinaryResponse.error) {
-    console.error(
-      "Cloudinary Error:",
-      cloudinaryResponse.error || "Unknown Cloudinary error"
-    );
-    return next(new ErrorHandler("Failed to upload Resume to Cloudinary", 500));
-  }
   const { name, email, coverLetter, phone, address, jobId } = req.body;
   const applicantID = {
     user: req.user._id,
@@ -52,16 +30,7 @@ export const postApplication = catchAsyncErrors(async (req, res, next) => {
     user: jobDetails.postedBy,
     role: "Employer",
   };
-  if (
-    !name ||
-    !email ||
-    !coverLetter ||
-    !phone ||
-    !address ||
-    !applicantID ||
-    !employerID ||
-    !resume
-  ) {
+  if (!name || !email || !coverLetter || !phone || !address) {
     return next(new ErrorHandler("Please fill all fields.", 400));
   }
   const application = await Application.create({
@@ -72,10 +41,6 @@ export const postApplication = catchAsyncErrors(async (req, res, next) => {
     address,
     applicantID,
     employerID,
-    resume: {
-      public_id: cloudinaryResponse.public_id,
-      url: cloudinaryResponse.secure_url,
-    },
   });
 
   // Emit live socket.io notification to the employer

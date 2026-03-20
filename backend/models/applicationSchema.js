@@ -27,12 +27,10 @@ const applicationSchema = new mongoose.Schema({
   },
   resume: {
     public_id: {
-      type: String, 
-      required: true,
+      type: String,
     },
     url: {
-      type: String, 
-      required: true,
+      type: String,
     },
   },
   applicantID: {

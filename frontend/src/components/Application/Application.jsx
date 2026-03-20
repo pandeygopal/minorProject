@@ -10,7 +10,6 @@ const Application = () => {
   const [coverLetter, setCoverLetter] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
-  const [resume, setResume] = useState(null);
 
   // AI fields
   const [skills, setSkills] = useState("");
@@ -23,23 +22,15 @@ const Application = () => {
   // Handle Application Submit
   const handleApplication = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("email", email);
-    formData.append("phone", phone);
-    formData.append("address", address);
-    formData.append("coverLetter", coverLetter);
-    formData.append("resume", resume);
-    formData.append("jobId", id);
 
     try {
       const { data } = await axios.post(
         "http://localhost:4000/api/v1/application/post",
-        formData,
+        { name, email, phone, address, coverLetter, jobId: id },
         {
           withCredentials: true,
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
           },
         }
       );
@@ -48,7 +39,6 @@ const Application = () => {
       setCoverLetter("");
       setPhone("");
       setAddress("");
-      setResume(null);
       toast.success(data.message);
       navigateTo("/job/getall");
     } catch (error) {
@@ -93,7 +83,7 @@ const Application = () => {
         <div className="lg:col-span-8 bg-white dark:bg-slate-900/50 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-primary/5">
           <div className="mb-6 border-b border-slate-100 dark:border-slate-800 pb-4">
             <h2 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Submit Application</h2>
-            <p className="text-slate-500 font-medium mt-1">Provide your details and upload your resume to apply.</p>
+            <p className="text-slate-500 font-medium mt-1">Fill in your details to apply for this position.</p>
           </div>
 
           <form onSubmit={handleApplication} className="space-y-6">
@@ -154,17 +144,6 @@ const Application = () => {
                 onChange={(e) => setCoverLetter(e.target.value)}
                 placeholder="Write your cover letter here, or use the Groq AI assistant on the right to autocomplete..."
                 className="w-full px-4 py-3 h-48 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 font-medium focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all resize-none"
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider block">Upload Resume (PDF/DOC)</label>
-              <input
-                type="file"
-                accept=".webp, .png, .jpg" // Based on Cloudinary config inside applicationSchema/Controller usually accepting images in original project
-                onChange={(e) => setResume(e.target.files[0])}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 cursor-pointer text-sm"
                 required
               />
             </div>
