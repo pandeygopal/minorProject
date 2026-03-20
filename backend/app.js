@@ -20,7 +20,7 @@ app.use(helmet());
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 100,
+  max: 1000, // Increased for development
   standardHeaders: true,
   legacyHeaders: false,
   message: { success: false, message: "Too many requests from this IP, please try again after 15 minutes" }
@@ -30,7 +30,7 @@ app.use("/api", limiter);
 app.use(
   cors({
     origin: [process.env.FRONTEND_URL],
-    method: ["GET", "POST", "DELETE", "PUT"],
+    methods: ["GET", "POST", "DELETE", "PUT"],
     credentials: true,
   })
 );

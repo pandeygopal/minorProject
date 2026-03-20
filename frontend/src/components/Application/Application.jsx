@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
@@ -79,9 +79,11 @@ const Application = () => {
     }
   };
 
-  if (!isAuthorized || (user && user.role === "Employer")) {
-    navigateTo("/");
-  }
+  useEffect(() => {
+    if (!isAuthorized || (user && user.role === "Employer")) {
+      navigateTo("/");
+    }
+  }, [isAuthorized, user, navigateTo]);
 
   return (
     <div className="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-[calc(100vh-64px)] py-10 px-4 flex justify-center">

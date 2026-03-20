@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -18,9 +18,11 @@ const PostJob = () => {
   const { isAuthorized, user } = useContext(Context);
   const navigateTo = useNavigate();
 
-  if (!isAuthorized || (user && user.role !== "Employer")) {
-    navigateTo("/");
-  }
+  useEffect(() => {
+    if (!isAuthorized || (user && user.role !== "Employer")) {
+      navigateTo("/");
+    }
+  }, [isAuthorized, user, navigateTo]);
 
   const handleJobPost = async (e) => {
     e.preventDefault();

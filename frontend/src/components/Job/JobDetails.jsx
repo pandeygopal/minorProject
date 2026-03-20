@@ -57,9 +57,7 @@ const JobDetails = () => {
     }
   };
 
-  if (!isAuthorized) {
-    navigateTo("/login");
-  }
+  // Job details page is public - no auth redirect needed
 
   return (
     <section className="jobDetail page bg-background-light dark:bg-background-dark min-h-[calc(100vh-64px)] py-10">
@@ -95,10 +93,17 @@ const JobDetails = () => {
               </span>
             </div>
 
-            {user && user.role !== "Employer" && (
+            {isAuthorized && user && user.role !== "Employer" && (
               <div>
                 <Link to={`/application/${job._id}`} className="mt-6 inline-block bg-primary text-white font-bold py-3 px-8 rounded-xl text-center shadow-lg shadow-primary/25 hover:brightness-110 active:scale-[0.98] transition-all">
                   Apply Now
+                </Link>
+              </div>
+            )}
+            {!isAuthorized && (
+              <div>
+                <Link to="/login" className="mt-6 inline-block bg-primary text-white font-bold py-3 px-8 rounded-xl text-center shadow-lg shadow-primary/25 hover:brightness-110 active:scale-[0.98] transition-all">
+                  Login to Apply
                 </Link>
               </div>
             )}
@@ -136,14 +141,14 @@ const JobDetails = () => {
             )}
           </div>
 
-          {user && user.role !== "Employer" && (
+          {isAuthorized && user && user.role !== "Employer" && (
             <div className="mt-8 border-t border-slate-200 dark:border-slate-800 pt-8">
               <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-4">Leave a Review</h4>
               <form onSubmit={handlePostReview} className="space-y-4">
                 <div>
                   <label className="text-sm font-bold text-slate-700 dark:text-slate-300 block mb-2">Rating</label>
-                  <select 
-                    value={rating} 
+                  <select
+                    value={rating}
                     onChange={e => setRating(Number(e.target.value))}
                     className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 font-medium focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all cursor-pointer"
                   >
@@ -156,8 +161,8 @@ const JobDetails = () => {
                 </div>
                 <div>
                   <label className="text-sm font-bold text-slate-700 dark:text-slate-300 block mb-2">Comment</label>
-                  <textarea 
-                    value={comment} 
+                  <textarea
+                    value={comment}
                     onChange={e => setComment(e.target.value)}
                     placeholder="Share your experience working with this employer..."
                     className="w-full p-3 h-24 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 font-medium focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all resize-none"
@@ -168,6 +173,11 @@ const JobDetails = () => {
                   Submit Review
                 </button>
               </form>
+            </div>
+          )}
+          {!isAuthorized && (
+            <div className="mt-8 border-t border-slate-200 dark:border-slate-800 pt-8">
+              <p className="text-slate-500 text-sm"><Link to="/login" className="text-primary font-bold">Login</Link> to leave a review.</p>
             </div>
           )}
         </div>

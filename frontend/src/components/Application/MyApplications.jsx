@@ -38,9 +38,11 @@ const MyApplications = () => {
     }
   }, [isAuthorized]);
 
-  if (!isAuthorized) {
-    navigateTo("/");
-  }
+  useEffect(() => {
+    if (!isAuthorized) {
+      navigateTo("/");
+    }
+  }, [isAuthorized, navigateTo]);
 
   const deleteApplication = (id) => {
     try {
