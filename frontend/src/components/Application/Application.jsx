@@ -3,6 +3,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { Context } from "../../main";
+import API_BASE_URL from "../../utils/api";
 
 const Application = () => {
   const [name, setName] = useState("");
@@ -25,7 +26,7 @@ const Application = () => {
 
     try {
       const { data } = await axios.post(
-        "http://localhost:4000/api/v1/application/post",
+        `${API_BASE_URL}/api/v1/application/post`,
         { name, email, phone, address, coverLetter, jobId: id },
         {
           withCredentials: true,
@@ -54,7 +55,7 @@ const Application = () => {
     setIsGenerating(true);
     try {
       const { data } = await axios.post(
-        "http://localhost:4000/api/v1/application/ai-generate-cover-letter",
+        `${API_BASE_URL}/api/v1/application/ai-generate-cover-letter`,
         { jobId: id, userName: name || user?.name, skills },
         { withCredentials: true }
       );
@@ -173,7 +174,7 @@ const Application = () => {
               </div>
 
               <p className="text-sm text-slate-600 dark:text-slate-400 mb-6 font-medium">
-                Struggling with words? Tell our AI your core skills, and we'll instantly generate a highly tailored cover letter utilizing Groq's high-speed Llama3 models.
+                Struggling with words? Tell our AI your core skills, and we will instantly generate a highly tailored cover letter using Groq high-speed Llama3 models.
               </p>
 
               <div className="space-y-4">

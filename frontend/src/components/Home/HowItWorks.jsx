@@ -43,7 +43,7 @@ const HowItWorks = () => {
           </div>
         </div>
 
-        <style jsx>{`
+        <style>{`
           .how-it-works {
             padding: 60px 20px;
             background-color: #f7f7f7;

@@ -12,6 +12,7 @@ import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
+import os from "os";
 
 const app = express();
 config({ path: "./config/config.env" });
@@ -42,7 +43,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   fileUpload({
     useTempFiles: true,
-    tempFileDir: "/tmp/",
+    tempFileDir: os.tmpdir(),
   })
 );
 app.use("/api/v1/user", userRouter);
@@ -50,7 +51,6 @@ app.use("/api/v1/job", jobRouter);
 app.use("/api/v1/application", applicationRouter);
 app.use("/api/v1/admin", adminRouter);
 app.use("/api/v1/review", reviewRouter);
-dbConnection();
 
 app.use(errorMiddleware);
 export default app;

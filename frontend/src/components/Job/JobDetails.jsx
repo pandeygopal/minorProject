@@ -3,6 +3,7 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Context } from "../../main";
 import toast from "react-hot-toast";
+import API_BASE_URL from "../../utils/api";
 
 const JobDetails = () => {
   const { id } = useParams();
@@ -17,13 +18,13 @@ const JobDetails = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/api/v1/job/${id}`, {
+      .get(`${API_BASE_URL}/api/v1/job/${id}`, {
         withCredentials: true,
       })
       .then((res) => {
         setJob(res.data.job);
       })
-      .catch((error) => {
+      .catch(() => {
         navigateTo("/notfound");
       });
   }, [id, navigateTo]);
@@ -31,7 +32,7 @@ const JobDetails = () => {
   useEffect(() => {
     if (job.postedBy) {
       const employerId = typeof job.postedBy === 'object' ? job.postedBy._id : job.postedBy;
-      axios.get(`http://localhost:4000/api/v1/review/${employerId}`, { withCredentials: true })
+      axios.get(`${API_BASE_URL}/api/v1/review/${employerId}`, { withCredentials: true })
         .then(res => setReviews(res.data.reviews || []))
         .catch(err => console.error(err));
     }
@@ -41,7 +42,7 @@ const JobDetails = () => {
     e.preventDefault();
     try {
       const employerId = typeof job.postedBy === 'object' ? job.postedBy._id : job.postedBy;
-      const { data } = await axios.post("http://localhost:4000/api/v1/review/post", {
+      const { data } = await axios.post(`${API_BASE_URL}/api/v1/review/post`, {
         revieweeId: employerId,
         jobId: job._id,
         rating,

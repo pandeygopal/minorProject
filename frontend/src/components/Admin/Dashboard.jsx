@@ -3,6 +3,7 @@ import axios from "axios";
 import { Context } from "../../main";
 import { Navigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import API_BASE_URL from "../../utils/api";
 
 const Dashboard = () => {
     const { user, isAuthorized } = useContext(Context);
@@ -15,8 +16,8 @@ const Dashboard = () => {
             if (!isAuthorized || user?.role !== "Admin") return;
             try {
                 const [statsRes, usersRes] = await Promise.all([
-                    axios.get("http://localhost:4000/api/v1/admin/stats", { withCredentials: true }),
-                    axios.get("http://localhost:4000/api/v1/admin/users", { withCredentials: true })
+                    axios.get(`${API_BASE_URL}/api/v1/admin/stats`, { withCredentials: true }),
+                    axios.get(`${API_BASE_URL}/api/v1/admin/users`, { withCredentials: true })
                 ]);
                 setStats(statsRes.data.stats);
                 setUsers(usersRes.data.users);

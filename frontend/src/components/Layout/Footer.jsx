@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { Context } from "../../main";
-import { Link } from "react-router-dom";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 function Footer() {
@@ -13,26 +12,28 @@ function Footer() {
           <p>&copy; All Rights Reserved by parul.</p>
         </div>
         <div className="footer-links">
-          <Link
-            to={'https://github.com/anshdeep0504'}
-            target='_blank'
+          <a
+            href="https://github.com/anshdeep0504"
+            target="_blank"
+            rel="noreferrer"
             className="social-link"
             aria-label="GitHub"
           >
             <FaGithub />
-          </Link>
-          <Link
-            to={'https://www.linkedin.com/in/anshdeep-singh-a01649231/'}
-            target='_blank'
+          </a>
+          <a
+            href="https://www.linkedin.com/in/anshdeep-singh-a01649231/"
+            target="_blank"
+            rel="noreferrer"
             className="social-link"
             aria-label="LinkedIn"
           >
             <FaLinkedin />
-          </Link>
+          </a>
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         footer {
           background-color: #222;
           color: #fff;

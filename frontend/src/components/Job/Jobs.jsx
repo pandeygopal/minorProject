@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
+import API_BASE_URL from "../../utils/api";
 
 const Jobs = () => {
   const [jobs, setJobs] = useState([]);
@@ -14,7 +15,7 @@ const Jobs = () => {
   const fetchJobs = () => {
     setLoading(true);
     axios
-      .get("http://localhost:4000/api/v1/job/getall", {
+      .get(`${API_BASE_URL}/api/v1/job/getall`, {
         withCredentials: true,
       })
       .then((res) => {

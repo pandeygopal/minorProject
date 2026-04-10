@@ -79,7 +79,7 @@ const PopularCategories = () => {
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         .popular-categories {
           padding: 60px 20px;
           background-color: #f8f9fa;

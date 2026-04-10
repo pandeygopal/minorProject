@@ -54,7 +54,7 @@ const HeroSection = () => {
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         /* Hero Section Styles */
         .hero-section {
           display: flex;

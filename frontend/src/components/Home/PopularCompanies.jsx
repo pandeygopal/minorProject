@@ -49,7 +49,7 @@ const PopularCompanies = () => {
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         .popular-companies {
           padding: 80px 20px;
           background-color: #f4f6f9;

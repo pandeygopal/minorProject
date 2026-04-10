@@ -11,11 +11,11 @@ A comprehensive job portal application built using the MERN (MongoDB, Express.js
 
 ## Technologies Used
 
-- **Frontend:** React.js, React Router, Bootstrap
-- **Backend:** Node.js, Express.js, MongoDB
-- **Authentication:** JWT (JSON Web Tokens), Bcrypt (for password hash)
+- **Frontend:** React.js, React Router, Tailwind CSS, Socket.IO client
+- **Backend:** Node.js, Express.js, MongoDB, Socket.IO
+- **Authentication:** JWT (JSON Web Tokens), Bcrypt for password hashing
 - **Image Upload:** Cloudinary for storing and managing uploaded images
-- **Deployment:** Vercel (frontend), Render(backend), MongoDB Atlas (database)
+- **Deployment:** Vercel for frontend, Render for backend, MongoDB Atlas for database
 
 ## Getting Started
 
@@ -29,50 +29,39 @@ To get a local copy up and running follow these simple steps.
 
 ### Installation
 
-1. Clone the repo:
+1. Clone the repo.
+2. Install dependencies in both apps:
    ```sh
-   git clone 
-   ```
-2. Install NPM packages:
-   ```sh
-   cd react-job-portal
    cd backend
    npm install
-   cd..
-   cd frontend
+   cd ../frontend
    npm install
    ```
 3. Set up environment variables:
-   - Create a `config.env` file after creating a `config folder` in the backend directory, containing the following variables:
-   ```env
-   PORT=
-   CLOUDINARY_API_KEY=
-   CLOUDINARY_API_SECRET=
-   CLOUDINARY_CLOUD_NAME=
-   FRONTEND_URL=
-   DB_URL=
-   JWT_SECRET_KEY=
-   JWT_EXPIRE=
-   COOKIE_EXPIRE=
-   ```
-
-   Replace each value with your specific configuration details.
-
-4. Run the application:
+   - Copy [backend/config/config.env.example](backend/config/config.env.example) to `backend/config/config.env`.
+   - Copy [frontend/.env.example](frontend/.env.example) to `frontend/.env`.
+   - Update the values for your local machine and hosted services.
+4. Start the backend server:
    ```sh
-   npm start
+   cd backend
+   npm run dev
    ```
-5. Open your browser and navigate to `http://localhost:3000` to view the app.
+5. Start the frontend app in a second terminal:
+   ```sh
+   cd frontend
+   npm run dev
+   ```
+6. Open the frontend URL shown by Vite, usually `http://localhost:5173`.
 
 ## Contributing
 
 Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request (`we will merge within 24 hour`)
+1. Fork the project.
+2. Create your feature branch.
+3. Commit your changes.
+4. Push to the branch.
+5. Open a pull request.
 
 ## Please give a star to the repository if you like it.
 

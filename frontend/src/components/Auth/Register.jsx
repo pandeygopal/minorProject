@@ -3,6 +3,7 @@ import { Link, Navigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Context } from "../../main";
+import API_BASE_URL from "../../utils/api";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -48,7 +49,7 @@ const Register = () => {
       toast.loading("AI is parsing your voice...", { id: "ai-parse" });
       
       try {
-        const { data } = await axios.post("http://localhost:4000/api/v1/user/ai-voice-setup", { transcript });
+        const { data } = await axios.post(`${API_BASE_URL}/api/v1/user/ai-voice-setup`, { transcript });
         const parsed = data.data;
         
         if (parsed.name) setName(parsed.name);
@@ -75,7 +76,7 @@ const Register = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        "http://localhost:4000/api/v1/user/register",
+        `${API_BASE_URL}/api/v1/user/register`,
         { name, phone, email, role, password },
         {
           headers: {

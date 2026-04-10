@@ -3,6 +3,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { Context } from "../../main";
 import { Link, Navigate } from "react-router-dom";
+import API_BASE_URL from "../../utils/api";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -23,7 +24,7 @@ const Login = () => {
     try {
       setLoading(true);
       const { data } = await axios.post(
-        "http://localhost:4000/api/v1/user/login",
+        `${API_BASE_URL}/api/v1/user/login`,
         { email, password, role },
         {
           headers: {
@@ -50,7 +51,7 @@ const Login = () => {
     try {
       setLoading(true);
       const { data } = await axios.post(
-        "http://localhost:4000/api/v1/user/send-otp",
+        `${API_BASE_URL}/api/v1/user/send-otp`,
         { phone, role },
         { withCredentials: true }
       );
@@ -69,7 +70,7 @@ const Login = () => {
     try {
       setLoading(true);
       const { data } = await axios.post(
-        "http://localhost:4000/api/v1/user/verify-otp",
+        `${API_BASE_URL}/api/v1/user/verify-otp`,
         { phone, role, otp },
         { withCredentials: true }
       );
@@ -207,7 +208,7 @@ const Login = () => {
         </form>
 
         <div className="mt-8 text-center text-sm font-medium text-slate-600 dark:text-slate-400">
-          Don't have an account? <Link to="/register" className="text-primary hover:underline font-bold ml-1">Sign Up</Link>
+          Do not have an account? <Link to="/register" className="text-primary hover:underline font-bold ml-1">Sign Up</Link>
         </div>
       </div>
     </div>

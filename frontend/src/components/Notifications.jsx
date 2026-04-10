@@ -2,6 +2,7 @@ import React, { useEffect, useContext, useState } from "react";
 import { io } from "socket.io-client";
 import { Context } from "../main";
 import toast from "react-hot-toast";
+import API_BASE_URL from "../utils/api";
 
 let socket;
 
@@ -13,19 +14,15 @@ const Notifications = () => {
 
     useEffect(() => {
         if (isAuthorized && user && user._id) {
-            // Connect to Socket.IO matching backend URL
-            socket = io("http://localhost:4000", {
+            socket = io(API_BASE_URL, {
                 withCredentials: true,
             });
 
             socket.on("connect", () => {
-                // Join namespace using user ID
                 socket.emit("join", user._id.toString());
             });
 
-            // Listen for specific business logic events
             socket.on("new_application", (data) => {
-                // Trigger generic toast notification anywhere
                 toast.custom((t) => (
                     <div className={`${t.visible ? 'animate-enter' : 'animate-leave'} max-w-md w-full bg-white dark:bg-slate-900 shadow-2xl rounded-2xl pointer-events-auto flex ring-1 ring-black/5 dark:ring-white/10`}>
                         <div className="flex-1 w-0 p-4">
@@ -52,7 +49,6 @@ const Notifications = () => {
                     </div>
                 ), { duration: 5000 });
 
-                // Add to internal list
                 setNotifications((prev) => [{ id: Date.now(), text: data.message, time: new Date() }, ...prev]);
                 setUnreadCount((c) => c + 1);
             });
